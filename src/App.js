@@ -8,7 +8,14 @@ class App extends React.Component {
 			location: '',
 			weatherData: {},
 		};
+
 		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(event) {
+		const { name, value } = event.target;
+		this.setState({ [name]: value });
 	}
 
 	componentDidMount() {
@@ -23,9 +30,17 @@ class App extends React.Component {
 		});
 	}
 
-	handleChange(event) {
-		const { name, value } = event.target;
-		this.setState({ [name]: value });
+	handleSubmit(event) {
+		fetch(
+			`http://api.openweathermap.org/data/2.5/weather?q=${this.state.location}&units=metric&APPID=${API_key}`
+		).then((response) => {
+			response.json().then((data) => {
+				this.setState({
+					weatherData: data,
+				});
+			});
+		});
+		event.preventDefault();
 	}
 
 	render() {
@@ -34,6 +49,7 @@ class App extends React.Component {
 		}
 
 		const temp = parseInt(this.state.weatherData.main.temp);
+		const windSpeed = parseInt(this.state.weatherData.wind.speed);
 
 		return (
 			<div>
@@ -44,6 +60,7 @@ class App extends React.Component {
 						marginTop: 150,
 						marginBottom: 50,
 					}}
+					onSubmit={this.handleSubmit}
 				>
 					<label>
 						Location:
@@ -70,6 +87,7 @@ class App extends React.Component {
 					<h4 style={{ margin: 5 }}>
 						{this.state.weatherData.weather[0].main}
 					</h4>
+					<h4 style={{ margin: 3 }}>{windSpeed} m/s</h4>
 					<h1 style={{ margin: 5 }}>{temp} °C</h1>
 				</div>
 			</div>
