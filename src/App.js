@@ -1,6 +1,5 @@
 import React from 'react';
-
-const API_key = 'cd7f0b57eaef7dd77db85c3ff318ae08';
+import API_key from './API_key';
 
 class App extends React.Component {
 	constructor() {
@@ -65,10 +64,13 @@ class App extends React.Component {
 						alignItems: 'center',
 					}}
 				>
-					<h1 style={{ margin: 5 }}>{temp} °C</h1>
-					<h3 style={{ margin: 10 }}>
+					<h2 style={{ margin: 10 }}>
 						{this.state.weatherData.name}, {this.state.weatherData.sys.country}
-					</h3>
+					</h2>
+					<h4 style={{ margin: 5 }}>
+						{this.state.weatherData.weather[0].main}
+					</h4>
+					<h1 style={{ margin: 5 }}>{temp} °C</h1>
 				</div>
 			</div>
 		);
