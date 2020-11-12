@@ -76,4 +76,4 @@ typings/
 .fusebox/
 
 # API key
-.API_key
+src/API_key.js
